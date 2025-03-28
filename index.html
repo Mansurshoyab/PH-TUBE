@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PH-TUBE</title>
-
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
@@ -12,7 +11,7 @@
     <header>
         <nav class="w-11/12 mx-auto flex justify-between border-b-1 py-5 border-[#17171720]">
             <div class="logo">
-                <img class="w-[120px]" src="./assets/Logo.png" alt="">
+                <img class="w-[120px]" src="./assets/Logo.png" alt="PH-TUBE">
             </div>
             <div class="sort">
                 <button class="btn">Sort By View</button>
@@ -23,12 +22,11 @@
         </nav>
     </header>
 
-    <nav id="category-container" class="flex py-5 justify-center gap-5">
-        <button class="btn btn-sm">All</button>
-        <button class="btn btn-sm">All</button>
-        <button class="btn btn-sm">All</button>
-        <button class="btn btn-sm">All</button>
-    </nav>
+    <nav id="category-container" class="flex py-5 justify-center gap-5"></nav>
+
+    <section class="w-11/12 mx-auto grid grid-cols-4 gap-5" id="video-container">
+        <div><img src="assets/Logo.png" alt="" srcset=""></div>
+    </section>
 
     <script src="./script/index.js"></script>
 </body>
