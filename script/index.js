@@ -1,3 +1,12 @@
+function removeActiveClass(){
+    const activeButtons = document.getElementsByClassName("active");
+    for(let btn of activeButtons){
+        btn.classList.remove('active');
+    }
+    
+}
+
+
 // ✅ Load categories on page load
 function loadCategories() {
     fetch('https://openapi.programming-hero.com/api/phero-tube/categories')
@@ -10,7 +19,8 @@ function loadVideos() {
     fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
         .then(res => res.json())
         .then(data => {
-            console.log("📥 All Videos:", data);
+            removeActiveClass();
+            document.getElementById('all-btn').classList.add('active');
             if (!data || !data.videos) {
                 console.error("❌ Error: No videos data found.");
                 return;
@@ -26,11 +36,9 @@ const loadCategoriesVideo = (id) => {
     fetch(url)
         .then(res => res.json())
         .then(data => {
-            console.log(`📥 Category ${id} Videos:`, data);
-            if (!data || !data.category) {
-                console.error(`❌ Error: No videos found for category ${id}`);
-                return;
-            }
+            removeActiveClass();
+            const clickedButton = document.getElementById(`btn-${id}`);
+            clickedButton.classList.add('active');
             displayVideos(data.category);
         });
 }
@@ -42,7 +50,8 @@ function displayCategories(categories) {
 
     // Add "All" button
     const allButton = document.createElement('button');
-    allButton.className = "btn btn-sm text-white bg-[#FF1F3D]";
+    allButton.className = "btn btn-sm";
+    allButton.id = "all-btn"
     allButton.innerText = "All";
     allButton.onclick = loadVideos; // Show all videos
     categoryContainer.appendChild(allButton);
@@ -51,7 +60,7 @@ function displayCategories(categories) {
     categories.forEach(cat => {
         const categoryDiv = document.createElement('div');
         categoryDiv.innerHTML = `
-            <button onclick="loadCategoriesVideo(${cat.category_id})" class="btn btn-sm hover:text-white hover:bg-[#FF1F3D]">
+            <button id="btn-${cat.category_id}" onclick="loadCategoriesVideo(${cat.category_id})" class="btn btn-sm hover:text-white hover:bg-[#FF1F3D]">
                 ${cat.category}
             </button>
         `;
@@ -61,18 +70,23 @@ function displayCategories(categories) {
 
 // ✅ Display Videos in the UI
 const displayVideos = (videos) => {
-    console.log("✅ Displaying Videos:", videos);
+    // console.log("✅ Displaying Videos:", videos);
 
     const videoContainer = document.getElementById('video-container');
-    videoContainer.innerHTML = ""; // Clear previous videos
-
-    if (!Array.isArray(videos) || videos.length === 0) {
-        videoContainer.innerHTML = "<p class='text-red-500'>No videos found.</p>";
+    videoContainer.innerHTML = "";
+    
+    if(videos.length == 0){
+        videoContainer.innerHTML = `
+            <div class="col-span-full text-center items-center flex flex-col justify-center">
+                <img src="assets/Icon.png" alt="" srcset="">
+                <h2 class="text-2xl font-bold">Oops!! Sorry, There is no content here</h2>
+            </div>
+        `; 
         return;
     }
 
     videos.forEach(video => {
-        console.log("🎥 Video:", video); // Debug each video
+        // console.log("🎥 Video:", video);
 
         const videoCard = document.createElement('div');
         videoCard.classList.add("card", "bg-base-100", "p-3", "rounded-md");
